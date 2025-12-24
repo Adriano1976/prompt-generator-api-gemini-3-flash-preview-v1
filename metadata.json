@@ -1,0 +1,5 @@
+{
+  "name": "Mestre do NotebookLM",
+  "description": "Um assistente inteligente para estudantes e pesquisadores gerarem prompts otimizados e configurações precisas para o NotebookLM, maximizando o uso de fontes e capacidades de IA.",
+  "requestFramePermissions": []
+}
