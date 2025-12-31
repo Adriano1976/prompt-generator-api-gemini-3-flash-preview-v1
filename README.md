@@ -97,7 +97,7 @@ Este projeto está sob a licença MIT. Consulte o arquivo `LICENSE` para mais de
 
 <div align="center">
   <p><b><h3> Contagem de visitantes </h3></b></p>  
-  <img src="https://vbr.nathanchung.dev/badge?page_id=Adriano1976/prompt-generator-notebooklm" style="height: 30px;" />
+  <img src="https://vbr.nathanchung.dev/badge?page_id=Adriano1976/notemaster-api-gemini-3-flash-preview" style="height: 30px;" />
    <br>
   <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=87CEFA&height=120&section=footer"/>
 </div>
