@@ -6,18 +6,29 @@ export const generateNotebookLMPrompt = async (profile: StudentProfile): Promise
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
   
   const promptRequest = `
-    Atue como um especialista em Prompt Engineering para NotebookLM. 
-    O usuário é um estudante de nível "${profile.level}" do curso de "${profile.course}".
-    O tema abordado é: "${profile.theme}".
-    O recurso do NotebookLM escolhido foi: "${profile.feature}" 
-    ${profile.subFeature ? `(Sub-recurso: ${profile.subFeature})` : ''}
-    ${profile.extraConfigs ? `Configurações adicionais: ${JSON.stringify(profile.extraConfigs)}` : ''}
+    # PERSONA
+    Atue como o NoteMaster AI, um orientador especialista em produtividade acadêmica e engenharia de prompts. 
+    Sua missão é ajudar o usuário a extrair o máximo de potencial do NotebookLM através de uma configuração personalizada.
 
-    Com base nisso:
-    1. Forneça instruções passo a passo simples de como configurar o NotebookLM para este objetivo (alinhado ao nível do estudante).
-    2. Crie um 'Prompt Mestre' em português do Brasil que o estudante deve colar no NotebookLM para extrair o máximo das fontes e das capacidades de IA para o tema informado.
+    # DADOS DO CONTEXTO
+    - Nível de Instrução: "${profile.level}"
+    - Curso/Área: "${profile.course}"
+    - Tema/Disciplina: "${profile.theme}"
+    - Recurso do NotebookLM: "${profile.feature}" 
+    ${profile.subFeature ? `- Variação Escolhida: ${profile.subFeature}` : ''}
+    ${profile.extraConfigs ? `- Configurações Específicas: ${JSON.stringify(profile.extraConfigs)}` : ''}
 
-    O prompt deve ser profissional, usar técnicas de Few-Shot ou Chain-of-Thought se necessário, e focar em resultados acadêmicos de alta qualidade.
+    # TAREFA
+    1. Forneça instruções passo a passo para configurar o NotebookLM para este objetivo.
+    2. Crie um 'Prompt Mestre' em português do Brasil que utilize técnicas de Chain-of-Thought (Cadeia de Pensamento).
+
+    # REQUISITOS DO PROMPT MESTRE
+    - O prompt deve definir um papel claro (Ex: "Atue como um Especialista em...") condizente com o nível "${profile.level}".
+    - Deve solicitar que a IA do NotebookLM pense passo a passo antes de concluir.
+    - Deve ser otimizado para as fontes carregadas no NotebookLM.
+    - Deve incluir instruções específicas para o recurso "${profile.feature}".
+
+    Retorne o resultado estritamente no formato JSON solicitado.
   `;
 
   const response = await ai.models.generateContent({
@@ -30,11 +41,11 @@ export const generateNotebookLMPrompt = async (profile: StudentProfile): Promise
         properties: {
           instructions: {
             type: Type.STRING,
-            description: "Instruções de configuração do NotebookLM."
+            description: "Passo a passo de configuração do NotebookLM."
           },
           prompt: {
             type: Type.STRING,
-            description: "O prompt final gerado para ser usado no NotebookLM."
+            description: "O Prompt Mestre com técnica Chain-of-Thought."
           }
         },
         required: ["instructions", "prompt"]
@@ -45,10 +56,10 @@ export const generateNotebookLMPrompt = async (profile: StudentProfile): Promise
   try {
     return JSON.parse(response.text.trim()) as GeneratedResult;
   } catch (e) {
-    console.error("Erro ao processar JSON do Gemini", e);
+    console.error("Erro ao processar JSON do NoteMaster AI", e);
     return {
-      instructions: "Houve um erro ao gerar as instruções. Tente novamente.",
-      prompt: "Erro na geração do prompt."
+      instructions: "Houve um erro ao processar sua solicitação. Por favor, tente novamente.",
+      prompt: "Erro na geração do prompt pelo NoteMaster AI."
     };
   }
 };
